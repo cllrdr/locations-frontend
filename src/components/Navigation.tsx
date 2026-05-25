@@ -1,27 +1,19 @@
-import { Container, Nav, Navbar } from "react-bootstrap";
+import { type FC } from "react";
+import { Navbar, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { ROUTES, ROUTE_LABELS } from "../../Routes";
+import { ROUTES } from "../../Routes";
 
-const Navigation = () => {
-  return (
-    <Navbar bg="light" expand="lg" className="mb-4">
-      <Container>
-        <Nav className="w-100 d-flex justify-content-between">
-          <Navbar.Brand as={Link} to={ROUTES.HOME}>
-            iTunes Browser
-          </Navbar.Brand>
-          <div>
-            <Nav.Link as={Link} to={ROUTES.HOME} className="d-inline-block">
-              {ROUTE_LABELS.HOME}
-            </Nav.Link>
-            <Nav.Link as={Link} to={ROUTES.LOCATIONS} className="d-inline-block">
-              {ROUTE_LABELS.LOCATIONS}
-            </Nav.Link>
-          </div>
-        </Nav>
-      </Container>
-    </Navbar>
-  );
-};
+export const Navigation: FC = () => (
+  <Navbar className="py-2 mb-3">
+    <Container>
+      <Navbar.Brand as={Link} to={ROUTES.HOME}>
+        Locactions
+      </Navbar.Brand>
+      <Link to={ROUTES.LOCATIONS} className="btn btn-outline-light">
+        Все локации
+      </Link>
+    </Container>
+  </Navbar>
+);
 
 export default Navigation;

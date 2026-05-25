@@ -1,47 +1,28 @@
 import { type FC } from "react";
-import { Button, Card } from "react-bootstrap";
-//import "./LocationCard.css";
-import defaultImage from "../assets/DefaultImage.png"
+import { Card, Button } from "react-bootstrap";
+import { type Locations } from "../modules/mock";
 
-interface LocationCardProps {
-  imagePath: string;
-  locationName: string;
-  shortDescription: string;
+interface LocationCardProps extends Locations {
   imageClickHandler: () => void;
 }
 
 export const LocationCard: FC<LocationCardProps> = ({
-  imagePath,
-  locationName,
-  shortDescription,
-  imageClickHandler,
-}) => {
-
-  return (
-    <Card className="card">
-      <Card.Img
-        className="cardImage"
-        variant="top"
-        src={imagePath || defaultImage}
-        height={100}
-        width={100}
-        onClick={imageClickHandler}
-      />
+  locationName, shortDescription, imagePath, imageClickHandler
+}) => (
+  <Card>
+    <div onClick={imageClickHandler} style={{ cursor: "pointer" }}>
+      <Card.Img variant="top" src={imagePath} />
       <Card.Body>
-        <div className="textStyle">
-          <Card.Title>{locationName}</Card.Title>
-        </div>
-        <div className="textStyle">
-          <Card.Text>{shortDescription}</Card.Text>
-        </div>
-        <Button
-          className="cardButton"
-          target="_blank"
-          variant="primary"
-        >
-          Подробнее
-        </Button>
+        <Card.Title>{locationName}</Card.Title>
+        <Card.Text>{shortDescription}</Card.Text>
       </Card.Body>
-    </Card>
-  );
-};
+    </div>
+    <Card.Footer>
+      <Button variant="outline-light" onClick={imageClickHandler} style={{ width: "100%" }}>
+        Выбрать
+      </Button>
+    </Card.Footer>
+  </Card>
+);
+
+export default LocationCard;

@@ -1,77 +1,53 @@
 import { type FC, useEffect, useState } from "react";
+import { Container, Row, Col, Badge, Button } from "react-bootstrap";
 import { BreadCrumbs } from "../components/BreadCrumbs";
 import { ROUTES, ROUTE_LABELS } from "../../Routes";
 import { useParams, useNavigate } from "react-router-dom";
-import { Col, Row, Image, Button } from "react-bootstrap";
-import { LOCATIONS_MOCK, type Locations } from "../modules/mock";
-import defaultImage from "../assets/DefaultImage.png";
+import { LOCATIONS_MOCK } from "../modules/mock";
 
 export const LocationPage: FC = () => {
-  const [location, setLocation] = useState<Locations | undefined>();
+  const [loc, setLoc] = useState<typeof LOCATIONS_MOCK[0] | undefined>();
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!id) return;
-    // Ищем локацию в моках по ID
-    const found = LOCATIONS_MOCK.find(
-      (loc) => String(loc.locationId) === id
-    );
-    setLocation(found);
+    if (id) setLoc(LOCATIONS_MOCK.find(l => String(l.locationId) === id));
   }, [id]);
 
-  if (!location) {
-    return (
-      <div className="container py-5">
-        <BreadCrumbs
-          crumbs={[
-            { label: ROUTE_LABELS.LOCATIONS, path: ROUTES.LOCATIONS },
-            { label: "Локация не найдена" },
-          ]}
-        />
-        <div className="text-center py-5">
-          <h2>Локация не найдена</h2>
-          <Button variant="primary" onClick={() => navigate(ROUTES.LOCATIONS)}>
-            Вернуться к списку
-          </Button>
-        </div>
-      </div>
-    );
-  }
+  if (!loc) return (
+    <Container className="py-5 text-center">
+      <BreadCrumbs crumbs={[{ label: ROUTE_LABELS.LOCATIONS, path: ROUTES.LOCATIONS }, { label: "Не найдено" }]} />
+      <h2 className="mt-4">Локация не найдена</h2>
+      <Button variant="outline-light" onClick={() => navigate(ROUTES.LOCATIONS)}>Назад</Button>
+    </Container>
+  );
 
   return (
-    <div className="container py-4">
-      <BreadCrumbs
-        crumbs={[
-          { label: ROUTE_LABELS.LOCATIONS, path: ROUTES.LOCATIONS },
-          { label: location.locationName },
-        ]}
-      />
-      
-      <Row className="mt-4">
-        <Col md={6}>
-          <Image
-            src={location.imagePath || defaultImage}
-            alt={location.locationName}
-            fluid
-            rounded
-          />
-        </Col>
-        <Col md={6}>
-          <h1>{location.locationName}</h1>
-          <p>
-            <strong>Игроков:</strong> {location.playersCount}
-          </p>
-          {location.shortDescription && (
-            <p>{location.shortDescription}</p>
-          )}
-          {location.description && (
-            <p>{location.description}</p>
-          )}
+    <Container className="py-4">
+      <BreadCrumbs crumbs={[
+        { label: ROUTE_LABELS.LOCATIONS, path: ROUTES.LOCATIONS },
+        { label: loc.locationName }
+      ]} />
+
+      <Row className="mt-4 justify-content-center">
+        <Col md={8} lg={6}>
+          <div className="reel-wrapper">
+            {loc.videoPath ? (
+              <video src={loc.videoPath} autoPlay loop muted />
+            ) : (
+              <img src={loc.imagePath} alt={loc.locationName} />
+            )}
+            <div className="reel-players">
+              <span>👥</span>
+              <span>{loc.playersCount}</span>
+            </div>
+            <div className="reel-info">
+              <h1 className="reel-title">{loc.locationName}</h1>
+              <p className="reel-description">{loc.description}</p>
+            </div>
+          </div>
         </Col>
       </Row>
-    </div>
+    </Container>
   );
 };
-
-export default LocationPage;

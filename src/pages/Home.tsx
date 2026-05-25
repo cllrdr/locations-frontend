@@ -1,22 +1,18 @@
 import { type FC } from "react";
+import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../Routes";
-import { Button, Col, Container, Row } from "react-bootstrap";
 
-export const HomePage: FC = () => {
-  return (
-    <Container>
-      <Row>
-        <Col md={6}>
-          <h1>Locactions project</h1>
-          <p>
-            Добро пожаловать в Locactions project! Здесь вы можете подобрать локации для игры.
-          </p>
-          <Link to={ROUTES.LOCATIONS}>
-            <Button variant="primary">Посмотреть локации</Button>
-          </Link>
-        </Col>
-      </Row>
-    </Container>
-  );
-};
+export const HomePage: FC = () => (
+  <Container className="py-5 text-center">
+    <h1 className="display-4 fw-bold mb-4">Locactions Project</h1>
+    <p className="lead mb-5">
+      Добро пожаловать! Подберите идеальные локации для вашей игры.
+    </p>
+    <Link to={ROUTES.LOCATIONS} className="btn btn-primary btn-lg">
+      Посмотреть локации
+    </Link>
+  </Container>
+);
+
+export default HomePage;

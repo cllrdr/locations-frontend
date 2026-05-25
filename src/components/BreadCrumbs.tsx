@@ -1,39 +1,20 @@
-//import "./BreadCrumbs.css";
-import React from "react";
-import { Link } from "react-router-dom";
 import { type FC } from "react";
-import { ROUTES } from "../../Routes";
+import { Breadcrumb } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-interface ICrumb {
-  label: string;
-  path?: string;
-}
+interface Crumb { label: string; path?: string; }
 
-interface BreadCrumbsProps {
-  crumbs: ICrumb[];
-}
-
-export const BreadCrumbs: FC<BreadCrumbsProps> = (props) => {
-  const { crumbs } = props;
-
-  return (
-    <ul className="breadcrumbs">
-      <li>
-        <Link to={ROUTES.HOME}>Главная</Link>
-      </li>
-      {!!crumbs.length &&
-        crumbs.map((crumb, index) => (
-          <React.Fragment key={index}>
-            <li className="slash">/</li>
-            {index === crumbs.length - 1 ? (
-              <li>{crumb.label}</li>
-            ) : (
-              <li>
-                <Link to={crumb.path || ""}>{crumb.label}</Link>
-              </li>
-            )}
-          </React.Fragment>
-        ))}
-    </ul>
-  );
-};
+export const BreadCrumbs: FC<{ crumbs: Crumb[] }> = ({ crumbs }) => (
+  <Breadcrumb>
+    {crumbs.map((c, i) => (
+      <Breadcrumb.Item
+        key={i}
+        active={!c.path}
+        linkAs={c.path ? Link : undefined}
+        linkProps={c.path ? { to: c.path } : undefined}
+      >
+        {c.label}
+      </Breadcrumb.Item>
+    ))}
+  </Breadcrumb>
+);
