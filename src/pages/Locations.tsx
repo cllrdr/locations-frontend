@@ -1,29 +1,40 @@
-import { type FC, useState } from "react";
+import { type FC, useEffect, useState } from "react";
 import { Container, Spinner, Alert } from "react-bootstrap";
 import InputField from "../components/InputField";
 import { BreadCrumbs } from "../components/BreadCrumbs";
 import { ROUTES, ROUTE_LABELS } from "../../Routes";
 import LocationCard from "../components/LocationCard";
 import { useNavigate } from "react-router-dom";
-import { LOCATIONS_MOCK } from "../modules/mock";
+import { locationsService, type Locations } from "../services/locationsService";
 import FloatingCart from "../components/FloatingCart";
 import defaultImage from "../assets/defaultImage.png"
 
-const LocationsService = {
-  searchByName: (q: string) =>
-    LOCATIONS_MOCK.filter(l => l.locationName.toLowerCase().includes(q.toLowerCase()))
-};
-
 export const LocationsList: FC = () => {
   const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [items, setItems] = useState(LOCATIONS_MOCK);
+  const [loading, setLoading] = useState(true);
+  const [items, setItems] = useState<Locations[]>([]);
+  const [allLocations, setAllLocations] = useState<Locations[]>([]);
   const navigate = useNavigate();
 
-  const handleSearch = () => {
-    if (!search.trim()) { setItems(LOCATIONS_MOCK); return; }
+  useEffect(() => {
+    const fetchLocations = async () => {
+      setLoading(true);
+      const data = await locationsService.getLocations();
+      setAllLocations(data);
+      setItems(data);
+      setLoading(false);
+    };
+    fetchLocations();
+  }, []);
+
+  const handleSearch = async () => {
+    if (!search.trim()) {
+      setItems(allLocations);
+      return;
+    }
     setLoading(true);
-    setItems(LocationsService.searchByName(search));
+    const data = await locationsService.getLocations(search);
+    setItems(data);
     setLoading(false);
   };
 

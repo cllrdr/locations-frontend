@@ -3,15 +3,17 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import { BreadCrumbs } from "../components/BreadCrumbs";
 import { ROUTES, ROUTE_LABELS } from "../../Routes";
 import { useParams, useNavigate } from "react-router-dom";
-import { LOCATIONS_MOCK } from "../modules/mock";
+import { locationsService, type Locations } from "../services/locationsService";
 
 export const LocationPage: FC = () => {
-  const [loc, setLoc] = useState<typeof LOCATIONS_MOCK[0] | undefined>();
+  const [loc, setLoc] = useState<Locations | undefined>();
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (id) setLoc(LOCATIONS_MOCK.find(l => String(l.locationId) === id));
+    if (id) {
+      locationsService.getLocationById(id).then(setLoc);
+    }
   }, [id]);
 
   if (!loc) return (
