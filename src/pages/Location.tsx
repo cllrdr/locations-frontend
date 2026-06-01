@@ -1,5 +1,5 @@
 import { type FC, useEffect, useState } from "react";
-import { Container, Row, Col, Badge, Button } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { BreadCrumbs } from "../components/BreadCrumbs";
 import { ROUTES, ROUTE_LABELS } from "../../Routes";
 import { useParams, useNavigate } from "react-router-dom";

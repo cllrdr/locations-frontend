@@ -7,6 +7,7 @@ import LocationCard from "../components/LocationCard";
 import { useNavigate } from "react-router-dom";
 import { LOCATIONS_MOCK } from "../modules/mock";
 import FloatingCart from "../components/FloatingCart";
+import defaultImage from "../assets/defaultImage.png"
 
 const LocationsService = {
   searchByName: (q: string) =>
@@ -38,7 +39,7 @@ export const LocationsList: FC = () => {
 
       <div className="cards-grid">
         {items.map(loc => (
-          <LocationCard key={loc.locationId} {...loc} imageClickHandler={() => navigate(`${ROUTES.LOCATIONS}/${loc.locationId}`)} />
+          <LocationCard key={loc.locationId} {...loc} imagePath={loc.imagePath || defaultImage} imageClickHandler={() => navigate(`${ROUTES.LOCATIONS}/${loc.locationId}`)} />
         ))}
       </div>
       <FloatingCart />
