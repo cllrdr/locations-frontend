@@ -6,8 +6,10 @@ export interface Locations {
   imagePath: string;
   videoPath: string;
   playersCount: string;
-  isDeleted?: boolean; // 🔹 Добавлено для моков (не используется)
+  isDeleted?: boolean;
 }
+
+export const MOCK_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJpc19tb2RlcmF0b3IiOmZhbHNlLCJleHAiOjE3ODAzOTU5ODAsImlhdCI6MTc4MDMwOTU4MH0.tA8p80r8SlwLvSGNKaDl6EAm7gvBOJzQ6GJ04N9fF5o";
 
 export const LOCATIONS_MOCK: Locations[] = [
   {
