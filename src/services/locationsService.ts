@@ -2,6 +2,7 @@ import { LOCATIONS_MOCK } from "../modules/mock";
 
 export interface Locations {
   locationId: number;
+  id?: number;
   locationName: string;
   description: string;
   shortDescription: string;
@@ -9,16 +10,19 @@ export interface Locations {
   videoPath: string;
   playersCount: string;
   isDeleted?: boolean;
+  similarity?: number;
 }
 
 const transformApiLocation = (apiData: any): Locations => ({
   locationId: apiData.id,
+  id: apiData.id,
   locationName: apiData.name,
   description: apiData.description,
   shortDescription: apiData.short_description,
   imagePath: apiData.image_path,
   videoPath: apiData.video_path,
   playersCount: apiData.players,
+  similarity: 0,
 });
 
 export const locationsService = {
