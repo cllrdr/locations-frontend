@@ -6,6 +6,7 @@ import { ROUTES, ROUTE_LABELS } from "../../Routes";
 import LocationCard from "../components/LocationCard";
 import { useNavigate } from "react-router-dom";
 import { LOCATIONS_MOCK } from "../modules/mock";
+import FloatingCart from "../components/FloatingCart";
 
 const LocationsService = {
   searchByName: (q: string) =>
@@ -40,6 +41,7 @@ export const LocationsList: FC = () => {
           <LocationCard key={loc.locationId} {...loc} imageClickHandler={() => navigate(`${ROUTES.LOCATIONS}/${loc.locationId}`)} />
         ))}
       </div>
+      <FloatingCart />
     </Container>
   );
 };
